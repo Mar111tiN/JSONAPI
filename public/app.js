@@ -13,12 +13,8 @@ function init (){
     });
 
     document.addEventListener('click', (e) => {
-        if(e.target.tagName == 'SPAN') {
-            removeTodo(e.target.closest('li'));
-        } else if (e.target.tagName == 'LI') {
-            updateTodo(e.target);
-        }
-
+        if(e.target.tagName == 'SPAN') removeTodo(e.target.closest('li'));
+        else if (e.target.tagName == 'LI') updateTodo(e.target);
     })
 
     function addTodos(todos) {
@@ -33,9 +29,7 @@ function init (){
             newTodo.append(span);
             newTodo.classList.add('task');
             newTodo.setAttribute('data-id',todo._id);
-            if (todo.completed) {
-                newTodo.classList.add('done');
-            }
+            if(todo.completed) newTodo.classList.add('done');
             ul.append(newTodo);
         }
 
@@ -50,7 +44,6 @@ function init (){
     }
 
     function removeTodo(el) {
-            console.log('delete');
             let todoId = el.dataset.id;
             axios.delete('/api/todo/'+ todoId)
             .then((del) => el.parentNode.removeChild(el))
@@ -58,14 +51,10 @@ function init (){
     }
 
     function updateTodo(el) {
-            console.log('update');
             let url = '/api/todo/' + el.dataset.id;
             axios.get(url)
             .then((res) => res.data.completed)
-            .then((done) => {
-                console.log(done); 
-                axios.put(url, {completed: !done})
-            })
+            .then((done) => axios.put(url, {completed: !done}))
             .then(() => el.classList.toggle('done'))
         }
 }
