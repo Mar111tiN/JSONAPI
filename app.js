@@ -15,8 +15,9 @@ const   indexRoutes = require('./routes'),
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-
-app.use(indexRoutes);
+app.use(express.static(__dirname + '/views'));
+app.use(express.static(__dirname + '/public'));
+app.use('/', indexRoutes);
 app.use('/api/todo', todoRoutes);
 app.listen(port, () => console.log('API is running on PORT ', port));
 
