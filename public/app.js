@@ -17,9 +17,7 @@ function init (){
         else if (e.target.tagName == 'LI') updateTodo(e.target);
     })
 
-    function addTodos(todos) {
-        todos.forEach((todo) => addTodo(todo));
-    }
+    const addTodos = (todos) => todos.forEach((todo) => addTodo(todo));
 
     const addTodo = (todo) => {
             let newTodo = document.createElement('li');
@@ -33,7 +31,7 @@ function init (){
             ul.append(newTodo);
         }
 
-    function createTodo() {
+    const createTodo = () => {
         let newInput = document.querySelector('#todoInput');
         axios.post('/api/todo', {name: newInput.value})
         .then((newTodo) => {
@@ -43,14 +41,14 @@ function init (){
         .catch((err) => console.log(err));
     }
 
-    function removeTodo(el) {
+    const removeTodo = (el) => {
             let todoId = el.dataset.id;
             axios.delete('/api/todo/'+ todoId)
             .then((del) => el.parentNode.removeChild(el))
             .catch((err) => {console.log(err)})
     }
 
-    function updateTodo(el) {
+    const updateTodo = (el) => {
             let url = '/api/todo/' + el.dataset.id;
             axios.get(url)
             .then((res) => res.data.completed)
